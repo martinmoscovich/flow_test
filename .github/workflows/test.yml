@@ -16,7 +16,7 @@ jobs:
 
     steps:
       - name: Build
-        uses: martinmoscovich/gh-actions/npm-build@1
+        uses: martinmoscovich/gh-actions/npm-build@master
         with:
           node_version: 14
           dist_dir: "build"
