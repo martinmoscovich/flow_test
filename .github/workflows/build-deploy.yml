@@ -36,7 +36,7 @@ jobs:
       - name: Build project
         run: npm run build
         env:
-          PUBLIC_URL: /${{ github.event.repository.name }}/${{ steps.extract_branch.outputs.branch }}/
+          PUBLIC_URL: /${{ github.event.repository.name }}/${{ github.event.release.tag_name }}/
 
       - name: Run tests
         run: npm run test
@@ -51,7 +51,6 @@ jobs:
     name: Deploy
     needs: build
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/master'
 
     steps:
       - name: Download artifact
@@ -70,7 +69,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./build
-          destination_dir: ./${{ steps.extract_branch.outputs.branch }}
+          destination_dir: ./${{ github.event.release.tag_name }}
 
   release:
     name: Release
@@ -93,10 +92,10 @@ jobs:
         uses: papeloto/action-zip@v1
         with:
           files: build/
-          dest: ${{ github.event.repository.name }}-${{ steps.get_version.outputs.VERSION }}.zip
+          dest: ${{ github.event.repository.name }}-${{ github.event.release.tag_name }}.zip
 
       - name: Create Release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "${{ github.event.repository.name }}-${{ steps.get_version.outputs.VERSION }}.zip"
+          artifacts: "${{ github.event.repository.name }}-${{ github.event.release.tag_name }}.zip"
           token: ${{ secrets.GITHUB_TOKEN }}
