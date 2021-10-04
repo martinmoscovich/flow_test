@@ -19,9 +19,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Extract branch name
-        shell: bash
-        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+      - name: Extract branch or tag name
+        uses: tj-actions/branch-names@v5
         id: extract_branch
 
       - name: Install Node.js and Restore Cache
@@ -36,7 +35,7 @@ jobs:
       - name: Build project
         run: npm run build
         env:
-          PUBLIC_URL: /${{ github.event.repository.name }}/${{ github.event.release.tag_name }}/
+          PUBLIC_URL: /${{ github.event.repository.name }}/${{ steps.extract_branch.outputs.current_branch }}/
 
       - name: Run tests
         run: npm run test
@@ -59,9 +58,8 @@ jobs:
           name: production-files
           path: ./build
 
-      - name: Extract branch name
-        shell: bash
-        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+      - name: Extract branch or tag name
+        uses: tj-actions/branch-names@v5
         id: extract_branch
 
       - name: Deploy to gh-pages
@@ -69,7 +67,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./build
-          destination_dir: ./${{ github.event.release.tag_name }}
+          destination_dir: ./${{ steps.extract_branch.outputs.current_branch }}
 
   release:
     name: Release
@@ -84,18 +82,18 @@ jobs:
           name: production-files
           path: ./build
 
-      - name: Get the version
-        id: get_version
-        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+      - name: Extract branch or tag name
+        uses: tj-actions/branch-names@v5
+        id: extract_branch
 
       - name: Compress files
         uses: papeloto/action-zip@v1
         with:
           files: build/
-          dest: ${{ github.event.repository.name }}-${{ github.event.release.tag_name }}.zip
+          dest: ${{ github.event.repository.name }}-${{ steps.extract_branch.outputs.current_branch }}.zip
 
       - name: Create Release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "${{ github.event.repository.name }}-${{ github.event.release.tag_name }}.zip"
+          artifacts: "${{ github.event.repository.name }}-${{ steps.extract_branch.outputs.current_branch }}.zip"
           token: ${{ secrets.GITHUB_TOKEN }}
