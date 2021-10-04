@@ -1,23 +1,23 @@
 {
   "files": {
-    "main.css": "/martinmoscovich/flow_test/master/static/css/main.a617e044.chunk.css",
-    "main.js": "/martinmoscovich/flow_test/master/static/js/main.12f8a65e.chunk.js",
-    "main.js.map": "/martinmoscovich/flow_test/master/static/js/main.12f8a65e.chunk.js.map",
-    "runtime-main.js": "/martinmoscovich/flow_test/master/static/js/runtime-main.f6de84ab.js",
-    "runtime-main.js.map": "/martinmoscovich/flow_test/master/static/js/runtime-main.f6de84ab.js.map",
-    "static/js/2.c978e68a.chunk.js": "/martinmoscovich/flow_test/master/static/js/2.c978e68a.chunk.js",
-    "static/js/2.c978e68a.chunk.js.map": "/martinmoscovich/flow_test/master/static/js/2.c978e68a.chunk.js.map",
-    "static/js/3.756421af.chunk.js": "/martinmoscovich/flow_test/master/static/js/3.756421af.chunk.js",
-    "static/js/3.756421af.chunk.js.map": "/martinmoscovich/flow_test/master/static/js/3.756421af.chunk.js.map",
-    "index.html": "/martinmoscovich/flow_test/master/index.html",
-    "static/css/main.a617e044.chunk.css.map": "/martinmoscovich/flow_test/master/static/css/main.a617e044.chunk.css.map",
-    "static/js/2.c978e68a.chunk.js.LICENSE.txt": "/martinmoscovich/flow_test/master/static/js/2.c978e68a.chunk.js.LICENSE.txt",
-    "static/media/logo.6ce24c58.svg": "/martinmoscovich/flow_test/master/static/media/logo.6ce24c58.svg"
+    "main.css": "/flow_test/master/static/css/main.a617e044.chunk.css",
+    "main.js": "/flow_test/master/static/js/main.dae10ac6.chunk.js",
+    "main.js.map": "/flow_test/master/static/js/main.dae10ac6.chunk.js.map",
+    "runtime-main.js": "/flow_test/master/static/js/runtime-main.ea7c94c8.js",
+    "runtime-main.js.map": "/flow_test/master/static/js/runtime-main.ea7c94c8.js.map",
+    "static/js/2.c978e68a.chunk.js": "/flow_test/master/static/js/2.c978e68a.chunk.js",
+    "static/js/2.c978e68a.chunk.js.map": "/flow_test/master/static/js/2.c978e68a.chunk.js.map",
+    "static/js/3.756421af.chunk.js": "/flow_test/master/static/js/3.756421af.chunk.js",
+    "static/js/3.756421af.chunk.js.map": "/flow_test/master/static/js/3.756421af.chunk.js.map",
+    "index.html": "/flow_test/master/index.html",
+    "static/css/main.a617e044.chunk.css.map": "/flow_test/master/static/css/main.a617e044.chunk.css.map",
+    "static/js/2.c978e68a.chunk.js.LICENSE.txt": "/flow_test/master/static/js/2.c978e68a.chunk.js.LICENSE.txt",
+    "static/media/logo.6ce24c58.svg": "/flow_test/master/static/media/logo.6ce24c58.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.f6de84ab.js",
+    "static/js/runtime-main.ea7c94c8.js",
     "static/js/2.c978e68a.chunk.js",
     "static/css/main.a617e044.chunk.css",
-    "static/js/main.12f8a65e.chunk.js"
+    "static/js/main.dae10ac6.chunk.js"
   ]
 }
