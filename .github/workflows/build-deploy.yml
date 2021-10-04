@@ -17,6 +17,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
+
       - name: Install Node.js and Restore Cache
         uses: actions/setup-node@v2
         with:
@@ -28,6 +33,8 @@ jobs:
 
       - name: Build project
         run: npm run build
+        env:
+          PUBLIC_URL: /${{ github.repository }}/${{ steps.extract_branch.outputs.branch }}/
 
       - name: Run tests
         run: npm run test
