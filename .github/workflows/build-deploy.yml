@@ -17,18 +17,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Install Node.js
-        uses: actions/setup-node@v1
+      - name: Install Node.js and Restore Cache
+        uses: actions/setup-node@v2
         with:
-          node-version: 13.x
-
-      - name: Cache dependencies
-        uses: actions/cache@v2
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
+          node-version: "14"
+          cache: "npm"
 
       - name: Install NPM packages
         run: npm ci
