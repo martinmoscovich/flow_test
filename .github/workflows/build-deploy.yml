@@ -34,7 +34,7 @@ jobs:
       - name: Build project
         run: npm run build
         env:
-          PUBLIC_URL: /${{ github.repository }}/${{ steps.extract_branch.outputs.branch }}/
+          PUBLIC_URL: /${{ github.event.repository.name }}/${{ steps.extract_branch.outputs.branch }}/
 
       - name: Run tests
         run: npm run test
