@@ -1,8 +1,9 @@
 name: Releases workflow
 
 on:
-  tags:
-    - "v*"
+  push:
+    tags:
+      - "v*"
 
 env:
   DIST_DIR: build
