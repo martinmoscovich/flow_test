@@ -1,6 +1,7 @@
 name: Promote to Staging
 
-on: workflow_dispatch
+on: 
+  workflow_dispatch
 
 env:
   DIST_DIR: build
