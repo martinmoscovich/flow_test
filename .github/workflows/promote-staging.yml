@@ -1,7 +1,11 @@
 name: Promote to Staging
 
 on: 
-  workflow_dispatch
+  workflow_dispatch:
+    inputs:
+      release-version:
+        description: 'Release version tag'
+        required: true
 
 env:
   DIST_DIR: build
@@ -23,24 +27,20 @@ jobs:
     name: Promote
     # needs: build
     runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/tags/v')
+    # if: startsWith(github.ref, 'refs/tags/v')
 
     steps:
-      - name: Extract branch or tag name
-        uses: tj-actions/branch-names@v5
-        id: extract_branch
-
       - name: Download release
         uses: dsaltares/fetch-gh-release-asset@master
         with:
-          version: "tags/${{ steps.branch-name.outputs.tag }}"
-          file: "${{ github.event.repository.name }}-${{ steps.branch-name.outputs.tag }}.zip"
+          version: "tags/${{ github.event.inputs.release-version }}"
+          file: "${{ github.event.repository.name }}-${{ github.event.inputs.release-version }}.zip"
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Unzip release
         uses: montudor/action-zip@v1
         with:
-          args: unzip -qq ${{ github.event.repository.name }}-${{ steps.branch-name.outputs.tag }}.zip -d ${{ env.DIST_DIR }}
+          args: unzip -qq ${{ github.event.repository.name }}-${{ github.event.inputs.release-version }}.zip -d ${{ env.DIST_DIR }}
 
       - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v3
