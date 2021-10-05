@@ -1,0 +1,48 @@
+name: Promote to staging
+
+on: workflow_dispatch
+
+env:
+  DIST_DIR: build
+
+jobs:
+  # build:
+  #   name: Build
+  #   runs-on: ubuntu-latest
+
+  #   steps:
+  #     - name: Build
+  #       uses: martinmoscovich/gh-actions/npm-build@1
+  #       with:
+  #         node_version: 14
+  #         dist_dir: ${{ env.DIST_DIR }}
+
+  promote:
+    name: Promote
+    # needs: build
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+
+    steps:
+      - name: Extract branch or tag name
+        uses: tj-actions/branch-names@v5
+        id: extract_branch
+        
+      - name: Download release
+        uses: dsaltares/fetch-gh-release-asset@master
+        with:
+          version: "tags/${{ steps.branch-name.outputs.tag }}"
+          file: "${{ github.event.repository.name }}-${{ steps.branch-name.outputs.tag }}.zip"
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Unzip release
+        - uses: montudor/action-zip@v1
+          with:
+            args: unzip -qq ${{ github.event.repository.name }}-${{ steps.branch-name.outputs.tag }}.zip -d ${{ env.DIST_DIR }}
+
+      - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./${{ env.DIST_DIR }}
+          destination_dir: ./${{ inputs.to }}
