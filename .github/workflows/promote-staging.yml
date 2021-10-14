@@ -27,7 +27,6 @@ jobs:
     name: Promote to Staging
     # needs: build
     # if: startsWith(github.ref, 'refs/tags/v')
-    runs-on: ubuntu-latest
     uses: martinmoscovich/gh-actions/.github/workflows/promote.yml@main
     with:
       to: staging
