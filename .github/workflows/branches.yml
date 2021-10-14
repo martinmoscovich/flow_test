@@ -8,17 +8,12 @@ on:
     branches:
       - master
 
-env:
-  DIST_DIR: build
-
 jobs:
   build:
     uses: martinmoscovich/gh-actions/.github/workflows/npm-build.yml@main
     with:
       node_version: 14
-      dist_dir: ${{ env.DIST_DIR }}
-    secrets:
-      token: ${{ secrets.TOKEN }}  
+      dist_dir: build
 
   deploy:
     name: Deploy
@@ -34,5 +29,5 @@ jobs:
         uses: martinmoscovich/gh-actions/gh-deploy@main
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          dist_dir: ${{ env.DIST_DIR }}
+          dist_dir: build
           to: branches/${{ steps.extract_branch.outputs.current_branch }}
