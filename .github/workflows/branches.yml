@@ -13,7 +13,7 @@ env:
 
 jobs:
   build:
-    uses: martinmoscovich/gh-actions/npm-build/workflow.yml@main
+    uses: martinmoscovich/gh-actions/.github/workflows/npm-build.yml@main
     with:
       node_version: 14
       dist_dir: ${{ env.DIST_DIR }}
