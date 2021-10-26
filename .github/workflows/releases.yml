@@ -29,7 +29,7 @@ jobs:
           source_ref: master
           dist_dir: build
           tag: ${{ github.event.milestone.title }}
-          body: ${{ github.event.milestone.description }}
+          description: ${{ github.event.milestone.description }}
           release_filename: ${{ github.event.repository.name }}-${{ github.event.milestone.title }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
