@@ -15,6 +15,7 @@ jobs:
     with:
       node_version: 14
       dist_dir: build
+      source_ref: master
 
   release:
     name: Release
@@ -25,11 +26,11 @@ jobs:
       - name: Create release
         uses: martinmoscovich/gh-actions/release@main
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
           source_ref: master
-          tag: ${{ github.event.milestone.title }}
           dist_dir: build
+          tag: ${{ github.event.milestone.title }}
           release_filename: ${{ github.event.repository.name }}-${{ github.event.milestone.title }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
 
   deploy:
     name: Deploy
@@ -37,13 +38,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Extract branch or tag name
-        uses: tj-actions/branch-names@v5
-        id: extract_branch
-
       - name: Deploy to GH Pages
         uses: martinmoscovich/gh-actions/gh-deploy@main
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
           dist_dir: build
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           to: releases/${{ github.event.milestone.title }}
