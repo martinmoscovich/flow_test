@@ -8,7 +8,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - run: echo ${{ github.event.milestone.number }}
+      - run: echo ${{ github.event.milestone.title }}
         shell: bash
 #   build:
 #     uses: martinmoscovich/gh-actions/.github/workflows/npm-build.yml@main
