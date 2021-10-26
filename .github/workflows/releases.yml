@@ -13,7 +13,6 @@ jobs:
   build:
     uses: martinmoscovich/gh-actions/.github/workflows/npm-build.yml@main
     with:
-      source_ref: ${{ github.event.milestone.title }}
       node_version: 14
       dist_dir: build
 
