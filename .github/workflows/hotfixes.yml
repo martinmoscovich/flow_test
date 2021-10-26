@@ -1,6 +1,10 @@
 name: Hotfixes workflow
 
 # Run for hotfixes (minor > 0)
+# - Checkouts the pushed tag
+# - Builds and tests the project
+# - Creates a new release with the compressed artifact
+# - Deploys the application to Github Pages
 on:
   push:
     tags:
