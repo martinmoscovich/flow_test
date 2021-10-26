@@ -13,7 +13,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - run: echo ${{ github.event.milestone.numbrt }}
+      - run: echo '${{ github.event.milestone.number }}''
         shell: bash
   # build:
   #   uses: martinmoscovich/gh-actions/.github/workflows/npm-build.yml@main
