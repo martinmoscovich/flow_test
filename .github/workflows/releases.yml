@@ -10,6 +10,11 @@ on:
     types: [closed]
 
 jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo ${{ github.event.milestone.description }}
+        shell: bash
   build:
     uses: martinmoscovich/gh-actions/.github/workflows/npm-build.yml@main
     with:
