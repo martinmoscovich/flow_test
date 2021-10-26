@@ -1,0 +1,48 @@
+name: Tags workflow
+
+# Run for all tags except releases (tags with Semver format)
+on:
+  push:
+    tags-ignore:
+      - v*.*.*
+
+jobs:
+  build:
+    uses: martinmoscovich/gh-actions/.github/workflows/npm-build.yml@main
+    with:
+      node_version: 14
+      dist_dir: build
+
+  release:
+    name: Release
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Extract tag name (release version)
+        uses: tj-actions/branch-names@v5
+        id: extract_branch
+
+      - name: Create release
+        uses: martinmoscovich/gh-actions/release@main
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          dist_dir: build
+          release_filename: ${{ github.event.repository.name }}-${{ steps.extract_branch.outputs.current_branch }}
+
+  deploy:
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Extract branch or tag name
+        uses: tj-actions/branch-names@v5
+        id: extract_branch
+
+      - name: Deploy to GH Pages
+        uses: martinmoscovich/gh-actions/gh-deploy@main
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          dist_dir: build
+          to: tags/${{ steps.extract_branch.outputs.current_branch }}
