@@ -10,44 +10,38 @@ on:
     types: [closed]
 
 jobs:
-  test:
+  build:
+    uses: martinmoscovich/gh-actions/.github/workflows/npm-build.yml@main
+    with:
+      node_version: 14
+      dist_dir: build
+      source_ref: master
+
+  release:
+    name: Release
+    needs: build
     runs-on: ubuntu-latest
+
     steps:
-      - run: echo '${{ github.event.milestone.title }}'
-        shell: bash
-      - run: echo '${{ github.event.milestone.description }}'
-        shell: bash
-  # build:
-  #   uses: martinmoscovich/gh-actions/.github/workflows/npm-build.yml@main
-  #   with:
-  #     node_version: 14
-  #     dist_dir: build
-  #     source_ref: master
+      - name: Create release
+        uses: martinmoscovich/gh-actions/release@main
+        with:
+          source_ref: master
+          dist_dir: build
+          tag: ${{ github.event.milestone.title }}
+          body: ${{ github.event.milestone.description }}
+          release_filename: ${{ github.event.repository.name }}-${{ github.event.milestone.title }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
 
-  # release:
-  #   name: Release
-  #   needs: build
-  #   runs-on: ubuntu-latest
+  deploy:
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
 
-  #   steps:
-  #     - name: Create release
-  #       uses: martinmoscovich/gh-actions/release@main
-  #       with:
-  #         source_ref: master
-  #         dist_dir: build
-  #         tag: ${{ github.event.milestone.title }}
-  #         release_filename: ${{ github.event.repository.name }}-${{ github.event.milestone.title }}
-  #         github_token: ${{ secrets.GITHUB_TOKEN }}
-
-  # deploy:
-  #   name: Deploy
-  #   needs: build
-  #   runs-on: ubuntu-latest
-
-  #   steps:
-  #     - name: Deploy to GH Pages
-  #       uses: martinmoscovich/gh-actions/gh-deploy@main
-  #       with:
-  #         dist_dir: build
-  #         github_token: ${{ secrets.GITHUB_TOKEN }}
-  #         to: releases/${{ github.event.milestone.title }}
+    steps:
+      - name: Deploy to GH Pages
+        uses: martinmoscovich/gh-actions/gh-deploy@main
+        with:
+          dist_dir: build
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          to: releases/${{ github.event.milestone.title }}
