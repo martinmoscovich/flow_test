@@ -8,11 +8,8 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: View context attributes
-        uses: actions/github-script@v5
-        with:
-          script: |
-            console.log(context)
+      - run: echo ${{ github.event.milestone.number }}
+        shell: bash
 #   build:
 #     uses: martinmoscovich/gh-actions/.github/workflows/npm-build.yml@main
 #     with:
