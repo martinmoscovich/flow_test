@@ -1,47 +1,54 @@
 name: Releases workflow
 
 on:
-  push:
-    tags:
-      - "v*"
+  milestone:
+    types: [closed]
 
 jobs:
-  build:
-    uses: martinmoscovich/gh-actions/.github/workflows/npm-build.yml@main
-    with:
-      node_version: 14
-      dist_dir: build
-
-  release:
-    name: Release
-    needs: build
+  test:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Extract tag name (release version)
-        uses: tj-actions/branch-names@v5
-        id: extract_branch
-
-      - name: Create release
-        uses: martinmoscovich/gh-actions/release@main
+      - name: View context attributes
+        uses: actions/github-script@v5
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          dist_dir: build
-          release_filename: ${{ github.event.repository.name }}-${{ steps.extract_branch.outputs.current_branch }}
+          script: |
+            console.log(context)
+#   build:
+#     uses: martinmoscovich/gh-actions/.github/workflows/npm-build.yml@main
+#     with:
+#       node_version: 14
+#       dist_dir: build
 
-  deploy:
-    name: Deploy
-    needs: build
-    runs-on: ubuntu-latest
+#   release:
+#     name: Release
+#     needs: build
+#     runs-on: ubuntu-latest
 
-    steps:
-      - name: Extract branch or tag name
-        uses: tj-actions/branch-names@v5
-        id: extract_branch
+#     steps:
+#       - name: Extract tag name (release version)
+#         uses: tj-actions/branch-names@v5
+#         id: extract_branch
 
-      - name: Deploy to GH Pages
-        uses: martinmoscovich/gh-actions/gh-deploy@main
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          dist_dir: build
-          to: releases/${{ steps.extract_branch.outputs.current_branch }}
+#       - name: Create release
+#         uses: martinmoscovich/gh-actions/release@main
+#         with:
+#           github_token: ${{ secrets.GITHUB_TOKEN }}
+#           dist_dir: build
+#           release_filename: ${{ github.event.repository.name }}-${{ steps.extract_branch.outputs.current_branch }}
+
+#   deploy:
+#     name: Deploy
+#     needs: build
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - name: Extract branch or tag name
+#         uses: tj-actions/branch-names@v5
+#         id: extract_branch
+
+#       - name: Deploy to GH Pages
+#         uses: martinmoscovich/gh-actions/gh-deploy@main
+#         with:
+#           github_token: ${{ secrets.GITHUB_TOKEN }}
+#           dist_dir: build
+#           to: releases/${{ steps.extract_branch.outputs.current_branch }}
